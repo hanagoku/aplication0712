@@ -1,20 +1,21 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ChildArea } from "./ChildArea";
 import "./styles.css";
 
 export default function App() {
   console.log("App");
-  const [count, setCount] = useState(0);
-  const onClickCountUp = () => {
-    setCount(count + 1);
-  };
+  const [text, setText] = useState("");
+  const [open, setOpen] = useState(false);
+  const onChangeText = (e) => setText(e.target.value);
+  const onClickOpenUp = () => setOpen(!open);
+  const onClickClose = useCallback(() => setOpen(false), [setOpen]);
   return (
     <div className="App">
-      <input />
+      <input value={text} onChange={onChangeText} />
       <br />
       <br />
-      <button>表示</button>
-      <ChildArea />
+      <button onClick={onClickOpenUp}>表示</button>
+      <ChildArea open={open} onClickClose={onClickClose} />
     </div>
   );
 }
